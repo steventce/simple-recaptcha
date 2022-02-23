@@ -1,0 +1,65 @@
+<html>
+
+<head>
+    <script defer src="https://unpkg.com/alpinejs@3.9.0/dist/cdn.min.js"></script>
+    <script src="/simple-recaptcha/src/simple-recaptcha.js"></script>
+</head>
+
+<body>
+    <form x-data="exampleForm()" x-init="$nextTick(() => exampleInit())">
+        <label for="message">Message</label>
+        <input type="text" x-model="message" id="message"><span x-text="message"></span>
+
+        <p>Recaptcha 1</p>
+        <div id="recaptcha-wrapper-1"></div>
+
+        <p>Recaptcha 2</p>
+        <div id="recaptcha-wrapper-2"></div>
+        <input @click="submitForm" id="submit-btn" type="button" value="Submit">
+    </form>
+
+    <script>
+        const v2Key = '<v2 key>'
+        const v3Key = '<v3 key>'
+
+        const {simpleRecaptchaV2, simpleRecaptchaV3} = SimpleRecaptcha()
+        const id1 = 'recaptcha-wrapper-1'
+        const id2 = 'recaptcha-wrapper-2'
+
+        function exampleInit() {
+            simpleRecaptchaV2.init([
+                { id: id1, renderOptions: { sitekey: v2Key } },
+                { id: id2, renderOptions: { sitekey: v2Key, theme: 'dark' } }
+            ])
+
+            simpleRecaptchaV3.init(v3Key)
+        }
+
+        function exampleForm() {
+            return {
+                message: '',
+                submitForm() {
+                    // V2: Get token immediately
+                    const token1 = simpleRecaptchaV2.getResponseToken(simpleRecaptchaV2.getWidgetId(id1))
+                    console.log(token1)
+
+                    const token2 = simpleRecaptchaV2.getResponseToken(simpleRecaptchaV2.getWidgetId(id2))
+                    console.log(token2)
+
+                    // Submit form via AJAX + token to backend
+
+                    // V3: Get token from promise
+                    simpleRecaptchaV3.getResponseToken(v3Key).then((token3) => {
+                        console.log(token3)
+                        
+                        // Submit form via AJAX + token to backend
+                    })
+                }
+            }
+        }
+
+    </script>
+
+</body>
+
+</html>

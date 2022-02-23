@@ -1,0 +1,14 @@
+{
+  "name": "simple-recaptcha",
+  "version": "0.1.0",
+  "description": "A wrapper around Google Recaptcha",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "recaptcha"
+  ],
+  "author": "Steven Eng",
+  "license": "ISC"
+}
